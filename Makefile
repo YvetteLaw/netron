@@ -1,7 +1,7 @@
 
 .PHONY: test coverage
 
-build: clean lint build_python build_electron
+build: clean lint build_electron
 
 publish: clean lint publish_electron publish_python publish_web publish_winget
 
@@ -10,7 +10,7 @@ install:
 
 clean:
 	rm -rf ./dist
-	rm -rf ./node_modules
+	#rm -rf ./node_modules
 	rm -rf ./package-lock.json
 
 reset: clean
@@ -37,10 +37,10 @@ build_python: install
 	python ./setup.py build --version bdist_wheel
 
 build_electron: install
-	CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --mac --universal --publish never
+	CSC_IDENTITY_AUTO_DISCOVERY=false #npx electron-builder --mac --universal --publish never
 	npx electron-builder --win --publish never
 	npx electron-builder --linux appimage --publish never
-	npx electron-builder --linux snap --publish never
+	#npx electron-builder --linux snap --publish never
 
 start: install
 	npx electron .

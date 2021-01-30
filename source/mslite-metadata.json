@@ -242,7 +242,7 @@
         { "name": "input" },
         { "name": "mean" },
         { "name": "variance" }
-      ], 
+      ],
       "outputs": [
         { "name": "output" }
       ],
@@ -1935,7 +1935,7 @@
   {
     "name": "Reduce",
     "schema": {
-      "inputs": [ 
+      "inputs": [
         { "name": "input" }
       ],
       "outputs": [
