@@ -21,11 +21,6 @@ $root.mindspore.schema.QuantParam = class QuantParam {
         $.narrowRange = reader.bool_(position, 12, true);
         $.numBits = reader.int32_(position, 14, 8);
         $.inited = reader.bool_(position, 16, false);
-        $.varCorr = reader.float32_(position, 18, 1);
-        $.meanCorr = reader.float32_(position, 20, 0);
-        $.dstDtype = reader.int32_(position, 22, 32);
-        $.roundType = reader.int32_(position, 24, 1);
-        $.multiplier = reader.int32_(position, 26, 1);
         return $;
     }
 
@@ -38,11 +33,6 @@ $root.mindspore.schema.QuantParam = class QuantParam {
         $.narrowRange = reader.value(json.narrowRange, true);
         $.numBits = reader.value(json.numBits, 8);
         $.inited = reader.value(json.inited, false);
-        $.varCorr = reader.value(json.varCorr, 1);
-        $.meanCorr = reader.value(json.meanCorr, 0);
-        $.dstDtype = reader.value(json.dstDtype, 32);
-        $.roundType = reader.value(json.roundType, 1);
-        $.multiplier = reader.value(json.multiplier, 1);
         return $;
     }
 };
@@ -59,8 +49,6 @@ $root.mindspore.schema.Tensor = class Tensor {
         $.offset = reader.int32_(position, 14, 0);
         $.data = reader.typedArray(position, 16, Uint8Array);
         $.quantParams = reader.tableArray(position, 18, $root.mindspore.schema.QuantParam.decode);
-        $.quantClusters = reader.typedArray(position, 20, Float32Array);
-        $.name = reader.string_(position, 22, null);
         return $;
     }
 
@@ -74,8 +62,6 @@ $root.mindspore.schema.Tensor = class Tensor {
         $.offset = reader.value(json.offset, 0);
         $.data = reader.typedArray(json.data, Uint8Array);
         $.quantParams = reader.objectArray(json.quantParams, $root.mindspore.schema.QuantParam.decodeText);
-        $.quantClusters = reader.typedArray(json.quantClusters, Float32Array);
-        $.name = reader.value(json.name, null);
         return $;
     }
 };
@@ -216,7 +202,7 @@ $root.mindspore.schema.PrimitiveType = class {
             case 130: return $root.mindspore.schema.Conv2DGradInput.decode(reader, position);
             case 131: return $root.mindspore.schema.PoolingGrad.decode(reader, position);
             case 132: return $root.mindspore.schema.BNGrad.decode(reader, position);
-            case 133: return $root.mindspore.schema.Assign.decode(reader, position);
+            case 133: return $root.mindspore.schema.BNGradInput.decode(reader, position);
             case 134: return $root.mindspore.schema.ApplyMomentum.decode(reader, position);
             case 135: return $root.mindspore.schema.BiasGrad.decode(reader, position);
             case 136: return $root.mindspore.schema.SoftmaxCrossEntropy.decode(reader, position);
@@ -241,60 +227,6 @@ $root.mindspore.schema.PrimitiveType = class {
             case 155: return $root.mindspore.schema.LshProjection.decode(reader, position);
             case 156: return $root.mindspore.schema.HashtableLookup.decode(reader, position);
             case 157: return $root.mindspore.schema.SkipGram.decode(reader, position);
-            case 158: return $root.mindspore.schema.DeConv2DGradFilter.decode(reader, position);
-            case 159: return $root.mindspore.schema.CustomPredict.decode(reader, position);
-            case 160: return $root.mindspore.schema.CustomNormalize.decode(reader, position);
-            case 161: return $root.mindspore.schema.CustomExtractFeatures.decode(reader, position);
-            case 162: return $root.mindspore.schema.AudioSpectrogram.decode(reader, position);
-            case 163: return $root.mindspore.schema.Mfcc.decode(reader, position);
-            case 164: return $root.mindspore.schema.Rfft.decode(reader, position);
-            case 165: return $root.mindspore.schema.FftReal.decode(reader, position);
-            case 166: return $root.mindspore.schema.FftImag.decode(reader, position);
-            case 167: return $root.mindspore.schema.Sgd.decode(reader, position);
-            case 168: return $root.mindspore.schema.Adam.decode(reader, position);
-            case 169: return $root.mindspore.schema.GroupConv2DGradInput.decode(reader, position);
-            case 170: return $root.mindspore.schema.Loop.decode(reader, position);
-            case 171: return $root.mindspore.schema.NonMaxSuppression.decode(reader, position);
-            case 172: return $root.mindspore.schema.InstanceNorm.decode(reader, position);
-            case 173: return $root.mindspore.schema.Identity.decode(reader, position);
-            case 174: return $root.mindspore.schema.LayerNorm.decode(reader, position);
-            case 175: return $root.mindspore.schema.While.decode(reader, position);
-            case 176: return $root.mindspore.schema.ControlDepend.decode(reader, position);
-            case 177: return $root.mindspore.schema.UnsortedSegmentSum.decode(reader, position);
-            case 178: return $root.mindspore.schema.AssignAdd.decode(reader, position);
-            case 179: return $root.mindspore.schema.OnesLike.decode(reader, position);
-            case 180: return $root.mindspore.schema.BinaryCrossEntropyGrad.decode(reader, position);
-            case 181: return $root.mindspore.schema.BinaryCrossEntropy.decode(reader, position);
-            case 182: return $root.mindspore.schema.LpNormalization.decode(reader, position);
-            case 183: return $root.mindspore.schema.DropoutGrad.decode(reader, position);
-            case 184: return $root.mindspore.schema.MaximumGrad.decode(reader, position);
-            case 185: return $root.mindspore.schema.MinimumGrad.decode(reader, position);
-            case 186: return $root.mindspore.schema.Switch.decode(reader, position);
-            case 187: return $root.mindspore.schema.Partial.decode(reader, position);
-            case 188: return $root.mindspore.schema.TensorListFromTensor.decode(reader, position);
-            case 189: return $root.mindspore.schema.TensorListStack.decode(reader, position);
-            case 190: return $root.mindspore.schema.TensorListGetItem.decode(reader, position);
-            case 191: return $root.mindspore.schema.TensorListSetItem.decode(reader, position);
-            case 192: return $root.mindspore.schema.TensorListReserve.decode(reader, position);
-            case 193: return $root.mindspore.schema.All.decode(reader, position);
-            case 194: return $root.mindspore.schema.Assert.decode(reader, position);
-            case 195: return $root.mindspore.schema.Adder.decode(reader, position);
-            case 196: return $root.mindspore.schema.SparseSoftmaxCrossEntropy.decode(reader, position);
-            case 197: return $root.mindspore.schema.SmoothL1Loss.decode(reader, position);
-            case 198: return $root.mindspore.schema.SmoothL1LossGrad.decode(reader, position);
-            case 199: return $root.mindspore.schema.SigmoidCrossEntropyWithLogits.decode(reader, position);
-            case 200: return $root.mindspore.schema.SigmoidCrossEntropyWithLogitsGrad.decode(reader, position);
-            case 201: return $root.mindspore.schema.Reciprocal.decode(reader, position);
-            case 202: return $root.mindspore.schema.Merge.decode(reader, position);
-            case 203: return $root.mindspore.schema.Mod.decode(reader, position);
-            case 204: return $root.mindspore.schema.If.decode(reader, position);
-            case 205: return $root.mindspore.schema.GeLU.decode(reader, position);
-            case 206: return $root.mindspore.schema.Gru.decode(reader, position);
-            case 207: return $root.mindspore.schema.NonZero.decode(reader, position);
-            case 208: return $root.mindspore.schema.InvertPermutation.decode(reader, position);
-            case 209: return $root.mindspore.schema.Size.decode(reader, position);
-            case 210: return $root.mindspore.schema.RandomStandardNormal.decode(reader, position);
-            case 211: return $root.mindspore.schema.CropAndResize.decode(reader, position);
         }
         return undefined;
     }
@@ -433,7 +365,7 @@ $root.mindspore.schema.PrimitiveType = class {
             case 'Conv2DGradInput': return $root.mindspore.schema.Conv2DGradInput.decodeText(reader, json);
             case 'PoolingGrad': return $root.mindspore.schema.PoolingGrad.decodeText(reader, json);
             case 'BNGrad': return $root.mindspore.schema.BNGrad.decodeText(reader, json);
-            case 'Assign': return $root.mindspore.schema.Assign.decodeText(reader, json);
+            case 'BNGradInput': return $root.mindspore.schema.BNGradInput.decodeText(reader, json);
             case 'ApplyMomentum': return $root.mindspore.schema.ApplyMomentum.decodeText(reader, json);
             case 'BiasGrad': return $root.mindspore.schema.BiasGrad.decodeText(reader, json);
             case 'SoftmaxCrossEntropy': return $root.mindspore.schema.SoftmaxCrossEntropy.decodeText(reader, json);
@@ -458,60 +390,6 @@ $root.mindspore.schema.PrimitiveType = class {
             case 'LshProjection': return $root.mindspore.schema.LshProjection.decodeText(reader, json);
             case 'HashtableLookup': return $root.mindspore.schema.HashtableLookup.decodeText(reader, json);
             case 'SkipGram': return $root.mindspore.schema.SkipGram.decodeText(reader, json);
-            case 'DeConv2DGradFilter': return $root.mindspore.schema.DeConv2DGradFilter.decodeText(reader, json);
-            case 'CustomPredict': return $root.mindspore.schema.CustomPredict.decodeText(reader, json);
-            case 'CustomNormalize': return $root.mindspore.schema.CustomNormalize.decodeText(reader, json);
-            case 'CustomExtractFeatures': return $root.mindspore.schema.CustomExtractFeatures.decodeText(reader, json);
-            case 'AudioSpectrogram': return $root.mindspore.schema.AudioSpectrogram.decodeText(reader, json);
-            case 'Mfcc': return $root.mindspore.schema.Mfcc.decodeText(reader, json);
-            case 'Rfft': return $root.mindspore.schema.Rfft.decodeText(reader, json);
-            case 'FftReal': return $root.mindspore.schema.FftReal.decodeText(reader, json);
-            case 'FftImag': return $root.mindspore.schema.FftImag.decodeText(reader, json);
-            case 'Sgd': return $root.mindspore.schema.Sgd.decodeText(reader, json);
-            case 'Adam': return $root.mindspore.schema.Adam.decodeText(reader, json);
-            case 'GroupConv2DGradInput': return $root.mindspore.schema.GroupConv2DGradInput.decodeText(reader, json);
-            case 'Loop': return $root.mindspore.schema.Loop.decodeText(reader, json);
-            case 'NonMaxSuppression': return $root.mindspore.schema.NonMaxSuppression.decodeText(reader, json);
-            case 'InstanceNorm': return $root.mindspore.schema.InstanceNorm.decodeText(reader, json);
-            case 'Identity': return $root.mindspore.schema.Identity.decodeText(reader, json);
-            case 'LayerNorm': return $root.mindspore.schema.LayerNorm.decodeText(reader, json);
-            case 'While': return $root.mindspore.schema.While.decodeText(reader, json);
-            case 'ControlDepend': return $root.mindspore.schema.ControlDepend.decodeText(reader, json);
-            case 'UnsortedSegmentSum': return $root.mindspore.schema.UnsortedSegmentSum.decodeText(reader, json);
-            case 'AssignAdd': return $root.mindspore.schema.AssignAdd.decodeText(reader, json);
-            case 'OnesLike': return $root.mindspore.schema.OnesLike.decodeText(reader, json);
-            case 'BinaryCrossEntropyGrad': return $root.mindspore.schema.BinaryCrossEntropyGrad.decodeText(reader, json);
-            case 'BinaryCrossEntropy': return $root.mindspore.schema.BinaryCrossEntropy.decodeText(reader, json);
-            case 'LpNormalization': return $root.mindspore.schema.LpNormalization.decodeText(reader, json);
-            case 'DropoutGrad': return $root.mindspore.schema.DropoutGrad.decodeText(reader, json);
-            case 'MaximumGrad': return $root.mindspore.schema.MaximumGrad.decodeText(reader, json);
-            case 'MinimumGrad': return $root.mindspore.schema.MinimumGrad.decodeText(reader, json);
-            case 'Switch': return $root.mindspore.schema.Switch.decodeText(reader, json);
-            case 'Partial': return $root.mindspore.schema.Partial.decodeText(reader, json);
-            case 'TensorListFromTensor': return $root.mindspore.schema.TensorListFromTensor.decodeText(reader, json);
-            case 'TensorListStack': return $root.mindspore.schema.TensorListStack.decodeText(reader, json);
-            case 'TensorListGetItem': return $root.mindspore.schema.TensorListGetItem.decodeText(reader, json);
-            case 'TensorListSetItem': return $root.mindspore.schema.TensorListSetItem.decodeText(reader, json);
-            case 'TensorListReserve': return $root.mindspore.schema.TensorListReserve.decodeText(reader, json);
-            case 'All': return $root.mindspore.schema.All.decodeText(reader, json);
-            case 'Assert': return $root.mindspore.schema.Assert.decodeText(reader, json);
-            case 'Adder': return $root.mindspore.schema.Adder.decodeText(reader, json);
-            case 'SparseSoftmaxCrossEntropy': return $root.mindspore.schema.SparseSoftmaxCrossEntropy.decodeText(reader, json);
-            case 'SmoothL1Loss': return $root.mindspore.schema.SmoothL1Loss.decodeText(reader, json);
-            case 'SmoothL1LossGrad': return $root.mindspore.schema.SmoothL1LossGrad.decodeText(reader, json);
-            case 'SigmoidCrossEntropyWithLogits': return $root.mindspore.schema.SigmoidCrossEntropyWithLogits.decodeText(reader, json);
-            case 'SigmoidCrossEntropyWithLogitsGrad': return $root.mindspore.schema.SigmoidCrossEntropyWithLogitsGrad.decodeText(reader, json);
-            case 'Reciprocal': return $root.mindspore.schema.Reciprocal.decodeText(reader, json);
-            case 'Merge': return $root.mindspore.schema.Merge.decodeText(reader, json);
-            case 'Mod': return $root.mindspore.schema.Mod.decodeText(reader, json);
-            case 'If': return $root.mindspore.schema.If.decodeText(reader, json);
-            case 'GeLU': return $root.mindspore.schema.GeLU.decodeText(reader, json);
-            case 'Gru': return $root.mindspore.schema.Gru.decodeText(reader, json);
-            case 'NonZero': return $root.mindspore.schema.NonZero.decodeText(reader, json);
-            case 'InvertPermutation': return $root.mindspore.schema.InvertPermutation.decodeText(reader, json);
-            case 'Size': return $root.mindspore.schema.Size.decodeText(reader, json);
-            case 'RandomStandardNormal': return $root.mindspore.schema.RandomStandardNormal.decodeText(reader, json);
-            case 'CropAndResize': return $root.mindspore.schema.CropAndResize.decodeText(reader, json);
         }
         return undefined;
     }
@@ -564,34 +442,7 @@ $root.mindspore.schema.CNode = class CNode {
     }
 };
 
-$root.mindspore.schema.SubGraph = class SubGraph {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.SubGraph();
-        $.name = reader.string_(position, 4, null);
-        $.inputIndices = reader.typedArray(position, 6, Uint32Array);
-        $.outputIndices = reader.typedArray(position, 8, Uint32Array);
-        $.nodeIndices = reader.typedArray(position, 10, Uint32Array);
-        $.tensorIndices = reader.typedArray(position, 12, Uint32Array);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.SubGraph();
-        $.name = reader.value(json.name, null);
-        $.inputIndices = reader.typedArray(json.inputIndices, Uint32Array);
-        $.outputIndices = reader.typedArray(json.outputIndices, Uint32Array);
-        $.nodeIndices = reader.typedArray(json.nodeIndices, Uint32Array);
-        $.tensorIndices = reader.typedArray(json.tensorIndices, Uint32Array);
-        return $;
-    }
-};
-
 $root.mindspore.schema.MetaGraph = class MetaGraph {
-
-    static identifier(reader) {
-        return reader.identifier('MSL1');
-    }
 
     static create(reader) {
         return $root.mindspore.schema.MetaGraph.decode(reader, reader.root);
@@ -611,7 +462,6 @@ $root.mindspore.schema.MetaGraph = class MetaGraph {
         $.mempoolSize = reader.uint32_(position, 14, 0);
         $.nodes = reader.tableArray(position, 16, $root.mindspore.schema.CNode.decode);
         $.allTensors = reader.tableArray(position, 18, $root.mindspore.schema.Tensor.decode);
-        $.subGraph = reader.tableArray(position, 20, $root.mindspore.schema.SubGraph.decode);
         return $;
     }
 
@@ -625,35 +475,14 @@ $root.mindspore.schema.MetaGraph = class MetaGraph {
         $.mempoolSize = reader.value(json.mempoolSize, 0);
         $.nodes = reader.objectArray(json.nodes, $root.mindspore.schema.CNode.decodeText);
         $.allTensors = reader.objectArray(json.allTensors, $root.mindspore.schema.Tensor.decodeText);
-        $.subGraph = reader.objectArray(json.subGraph, $root.mindspore.schema.SubGraph.decodeText);
         return $;
     }
 };
 
 $root.mindspore.schema.ResizeMethod = {
     UNKNOW: -1,
-    LINEAR: 0,
-    NEAREST: 1,
-    CUBIC: 2
-};
-
-$root.mindspore.schema.CoordinateTransformMode = {
-    COMMON: 0,
-    HALF_PIXEL: 1,
-    PYTORCH_HALF_PIXEL: 2,
-    TF_HALF_PIXEL: 3,
-    TF_CROP_AND_RESIZE: 4,
-    ALIGN_CORNERS: 5,
-    ASYMMETRIC: 6,
-    ALIGN_CORNERS_WITH_HALF_PIEXL: 7
-};
-
-$root.mindspore.schema.NearestMode = {
-    NORMAL: 0,
-    ROUND_HALF_DOWN: 1,
-    ROUND_HALF_UP: 2,
-    FLOOR: 3,
-    CEIL: 4
+    BILINEAR: 0,
+    NEAREST_NEIGHBOR: 1
 };
 
 $root.mindspore.schema.Format = {
@@ -691,10 +520,7 @@ $root.mindspore.schema.ActivationType = {
     HSIGMOID: 13,
     THRESHOLDRELU: 14,
     LINEAR: 15,
-    HARD_TANH: 16,
-    SIGN: 17,
-    SWISH: 18,
-    UNKNOW: 19
+    UNKNOW: 16
 };
 
 $root.mindspore.schema.ActivationGradType = {
@@ -858,13 +684,13 @@ $root.mindspore.schema.SoftMax = class SoftMax {
 
     static decode(reader, position) {
         const $ = new $root.mindspore.schema.SoftMax();
-        $.axis = reader.int32_(position, 4, -1);
+        $.axis = reader.int32_(position, 4, 0);
         return $;
     }
 
     static decodeText(reader, json) {
         const $ = new $root.mindspore.schema.SoftMax();
-        $.axis = reader.value(json.axis, -1);
+        $.axis = reader.value(json.axis, 0);
         return $;
     }
 };
@@ -875,8 +701,6 @@ $root.mindspore.schema.Activation = class Activation {
         const $ = new $root.mindspore.schema.Activation();
         $.type = reader.int8_(position, 4, 0);
         $.alpha = reader.float32_(position, 6, 0.2);
-        $.min_val = reader.float32_(position, 8, -1);
-        $.max_val = reader.float32_(position, 10, 1);
         return $;
     }
 
@@ -884,8 +708,6 @@ $root.mindspore.schema.Activation = class Activation {
         const $ = new $root.mindspore.schema.Activation();
         $.type = $root.mindspore.schema.ActivationType[json.type];
         $.alpha = reader.value(json.alpha, 0.2);
-        $.min_val = reader.value(json.min_val, -1);
-        $.max_val = reader.value(json.max_val, 1);
         return $;
     }
 };
@@ -954,10 +776,10 @@ $root.mindspore.schema.Conv2D = class Conv2D {
     }
 };
 
-$root.mindspore.schema.Adder = class Adder {
+$root.mindspore.schema.Conv2DGradFilter = class Conv2DGradFilter {
 
     static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Adder();
+        const $ = new $root.mindspore.schema.Conv2DGradFilter();
         $.format = reader.int32_(position, 4, 0);
         $.group = reader.int32_(position, 6, 0);
         $.channelIn = reader.int32_(position, 8, 0);
@@ -979,54 +801,6 @@ $root.mindspore.schema.Adder = class Adder {
     }
 
     static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Adder();
-        $.format = $root.mindspore.schema.Format[json.format];
-        $.group = reader.value(json.group, 0);
-        $.channelIn = reader.value(json.channelIn, 0);
-        $.channelOut = reader.value(json.channelOut, 0);
-        $.kernelW = reader.value(json.kernelW, 0);
-        $.kernelH = reader.value(json.kernelH, 0);
-        $.strideW = reader.value(json.strideW, 0);
-        $.strideH = reader.value(json.strideH, 0);
-        $.padMode = $root.mindspore.schema.PadMode[json.padMode];
-        $.padUp = reader.value(json.padUp, 0);
-        $.padDown = reader.value(json.padDown, 0);
-        $.padLeft = reader.value(json.padLeft, 0);
-        $.padRight = reader.value(json.padRight, 0);
-        $.dilateW = reader.value(json.dilateW, 0);
-        $.dilateH = reader.value(json.dilateH, 0);
-        $.hasBias = reader.value(json.hasBias, false);
-        $.activationType = $root.mindspore.schema.ActivationType[json.activationType];
-        return $;
-    }
-};
-
-$root.mindspore.schema.Conv2DGradFilter = class Conv2DGradFilter {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Conv2DGradFilter();
-        $.format = reader.int32_(position, 4, 0);
-        $.group = reader.int32_(position, 6, 0);
-        $.channelIn = reader.int32_(position, 8, 0);
-        $.channelOut = reader.int32_(position, 10, 0);
-        $.kernelW = reader.int32_(position, 12, 0);
-        $.kernelH = reader.int32_(position, 14, 0);
-        $.strideW = reader.int32_(position, 16, 0);
-        $.strideH = reader.int32_(position, 18, 0);
-        $.padMode = reader.int8_(position, 20, 0);
-        $.padUp = reader.int32_(position, 22, 0);
-        $.padDown = reader.int32_(position, 24, 0);
-        $.padLeft = reader.int32_(position, 26, 0);
-        $.padRight = reader.int32_(position, 28, 0);
-        $.dilateW = reader.int32_(position, 30, 0);
-        $.dilateH = reader.int32_(position, 32, 0);
-        $.hasBias = reader.bool_(position, 34, false);
-        $.filter_shape = reader.typedArray(position, 36, Int32Array);
-        $.activationType = reader.int8_(position, 38, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
         const $ = new $root.mindspore.schema.Conv2DGradFilter();
         $.format = $root.mindspore.schema.Format[json.format];
         $.group = reader.value(json.group, 0);
@@ -1044,7 +818,6 @@ $root.mindspore.schema.Conv2DGradFilter = class Conv2DGradFilter {
         $.dilateW = reader.value(json.dilateW, 0);
         $.dilateH = reader.value(json.dilateH, 0);
         $.hasBias = reader.value(json.hasBias, false);
-        $.filter_shape = reader.typedArray(json.filter_shape, Int32Array);
         $.activationType = $root.mindspore.schema.ActivationType[json.activationType];
         return $;
     }
@@ -1070,8 +843,7 @@ $root.mindspore.schema.Conv2DGradInput = class Conv2DGradInput {
         $.dilateW = reader.int32_(position, 30, 0);
         $.dilateH = reader.int32_(position, 32, 0);
         $.hasBias = reader.bool_(position, 34, false);
-        $.input_shape = reader.typedArray(position, 36, Int32Array);
-        $.activationType = reader.int8_(position, 38, 0);
+        $.activationType = reader.int8_(position, 36, 0);
         return $;
     }
 
@@ -1093,56 +865,6 @@ $root.mindspore.schema.Conv2DGradInput = class Conv2DGradInput {
         $.dilateW = reader.value(json.dilateW, 0);
         $.dilateH = reader.value(json.dilateH, 0);
         $.hasBias = reader.value(json.hasBias, false);
-        $.input_shape = reader.typedArray(json.input_shape, Int32Array);
-        $.activationType = $root.mindspore.schema.ActivationType[json.activationType];
-        return $;
-    }
-};
-
-$root.mindspore.schema.GroupConv2DGradInput = class GroupConv2DGradInput {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.GroupConv2DGradInput();
-        $.format = reader.int32_(position, 4, 0);
-        $.group = reader.int32_(position, 6, 0);
-        $.channelIn = reader.int32_(position, 8, 0);
-        $.channelOut = reader.int32_(position, 10, 0);
-        $.kernelW = reader.int32_(position, 12, 0);
-        $.kernelH = reader.int32_(position, 14, 0);
-        $.strideW = reader.int32_(position, 16, 0);
-        $.strideH = reader.int32_(position, 18, 0);
-        $.padMode = reader.int8_(position, 20, 0);
-        $.padUp = reader.int32_(position, 22, 0);
-        $.padDown = reader.int32_(position, 24, 0);
-        $.padLeft = reader.int32_(position, 26, 0);
-        $.padRight = reader.int32_(position, 28, 0);
-        $.dilateW = reader.int32_(position, 30, 0);
-        $.dilateH = reader.int32_(position, 32, 0);
-        $.hasBias = reader.bool_(position, 34, false);
-        $.input_shape = reader.typedArray(position, 36, Int32Array);
-        $.activationType = reader.int8_(position, 38, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.GroupConv2DGradInput();
-        $.format = $root.mindspore.schema.Format[json.format];
-        $.group = reader.value(json.group, 0);
-        $.channelIn = reader.value(json.channelIn, 0);
-        $.channelOut = reader.value(json.channelOut, 0);
-        $.kernelW = reader.value(json.kernelW, 0);
-        $.kernelH = reader.value(json.kernelH, 0);
-        $.strideW = reader.value(json.strideW, 0);
-        $.strideH = reader.value(json.strideH, 0);
-        $.padMode = $root.mindspore.schema.PadMode[json.padMode];
-        $.padUp = reader.value(json.padUp, 0);
-        $.padDown = reader.value(json.padDown, 0);
-        $.padLeft = reader.value(json.padLeft, 0);
-        $.padRight = reader.value(json.padRight, 0);
-        $.dilateW = reader.value(json.dilateW, 0);
-        $.dilateH = reader.value(json.dilateH, 0);
-        $.hasBias = reader.value(json.hasBias, false);
-        $.input_shape = reader.typedArray(json.input_shape, Int32Array);
         $.activationType = $root.mindspore.schema.ActivationType[json.activationType];
         return $;
     }
@@ -1184,41 +906,30 @@ $root.mindspore.schema.BatchNorm = class BatchNorm {
 
 $root.mindspore.schema.BiasGrad = class BiasGrad {
 
-    static decode(/* reader, position */) {
+    static decode(reader, position) {
         const $ = new $root.mindspore.schema.BiasGrad();
+        $.axis = reader.typedArray(position, 4, Int32Array);
         return $;
     }
 
-    static decodeText(/* reader, json */) {
+    static decodeText(reader, json) {
         const $ = new $root.mindspore.schema.BiasGrad();
+        $.axis = reader.typedArray(json.axis, Int32Array);
         return $;
     }
 };
 
 $root.mindspore.schema.SoftmaxCrossEntropy = class SoftmaxCrossEntropy {
 
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.SoftmaxCrossEntropy();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.SoftmaxCrossEntropy();
-        return $;
-    }
-};
-
-$root.mindspore.schema.SparseSoftmaxCrossEntropy = class SparseSoftmaxCrossEntropy {
-
     static decode(reader, position) {
-        const $ = new $root.mindspore.schema.SparseSoftmaxCrossEntropy();
-        $.isGrad = reader.bool_(position, 4, false);
+        const $ = new $root.mindspore.schema.SoftmaxCrossEntropy();
+        $.axis = reader.typedArray(position, 4, Int32Array);
         return $;
     }
 
     static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.SparseSoftmaxCrossEntropy();
-        $.isGrad = reader.value(json.isGrad, false);
+        const $ = new $root.mindspore.schema.SoftmaxCrossEntropy();
+        $.axis = reader.typedArray(json.axis, Int32Array);
         return $;
     }
 };
@@ -1292,15 +1003,13 @@ $root.mindspore.schema.ConstantOfShape = class ConstantOfShape {
 
     static decode(reader, position) {
         const $ = new $root.mindspore.schema.ConstantOfShape();
-        $.dataType = reader.int32_(position, 4, 0);
-        $.value = reader.typedArray(position, 6, Float32Array);
+        $.value = reader.float32_(position, 4, 0);
         return $;
     }
 
     static decodeText(reader, json) {
         const $ = new $root.mindspore.schema.ConstantOfShape();
-        $.dataType = reader.value(json.dataType, 0);
-        $.value = reader.typedArray(json.value, Float32Array);
+        $.value = reader.value(json.value, 0);
         return $;
     }
 };
@@ -1525,11 +1234,6 @@ $root.mindspore.schema.Resize = class Resize {
         $.newWidth = reader.int64_(position, 10, 0);
         $.alignCorners = reader.bool_(position, 12, false);
         $.preserveAspectRatio = reader.bool_(position, 14, false);
-        $.coordinateTransformMode = reader.int8_(position, 16, 0);
-        $.cubicCoeff = reader.float32_(position, 18, 0);
-        $.excludeOutside = reader.int32_(position, 20, 0);
-        $.extrapolationValue = reader.float32_(position, 22, 0);
-        $.nearestMode = reader.int8_(position, 24, 0);
         return $;
     }
 
@@ -1541,11 +1245,6 @@ $root.mindspore.schema.Resize = class Resize {
         $.newWidth = reader.value(json.newWidth, 0);
         $.alignCorners = reader.value(json.alignCorners, false);
         $.preserveAspectRatio = reader.value(json.preserveAspectRatio, false);
-        $.coordinateTransformMode = $root.mindspore.schema.CoordinateTransformMode[json.coordinateTransformMode];
-        $.cubicCoeff = reader.value(json.cubicCoeff, 0);
-        $.excludeOutside = reader.value(json.excludeOutside, 0);
-        $.extrapolationValue = reader.value(json.extrapolationValue, 0);
-        $.nearestMode = $root.mindspore.schema.NearestMode[json.nearestMode];
         return $;
     }
 };
@@ -1676,53 +1375,6 @@ $root.mindspore.schema.DeConv2D = class DeConv2D {
     }
 };
 
-$root.mindspore.schema.DeConv2DGradFilter = class DeConv2DGradFilter {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.DeConv2DGradFilter();
-        $.format = reader.int32_(position, 4, 0);
-        $.group = reader.int32_(position, 6, 0);
-        $.channelIn = reader.int32_(position, 8, 0);
-        $.channelOut = reader.int32_(position, 10, 0);
-        $.kernelW = reader.int32_(position, 12, 0);
-        $.kernelH = reader.int32_(position, 14, 0);
-        $.strideW = reader.int32_(position, 16, 0);
-        $.strideH = reader.int32_(position, 18, 0);
-        $.padMode = reader.int8_(position, 20, 0);
-        $.padUp = reader.int32_(position, 22, 0);
-        $.padDown = reader.int32_(position, 24, 0);
-        $.padLeft = reader.int32_(position, 26, 0);
-        $.padRight = reader.int32_(position, 28, 0);
-        $.dilateW = reader.int32_(position, 30, 0);
-        $.dilateH = reader.int32_(position, 32, 0);
-        $.hasBias = reader.bool_(position, 34, false);
-        $.activationType = reader.int8_(position, 36, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.DeConv2DGradFilter();
-        $.format = $root.mindspore.schema.Format[json.format];
-        $.group = reader.value(json.group, 0);
-        $.channelIn = reader.value(json.channelIn, 0);
-        $.channelOut = reader.value(json.channelOut, 0);
-        $.kernelW = reader.value(json.kernelW, 0);
-        $.kernelH = reader.value(json.kernelH, 0);
-        $.strideW = reader.value(json.strideW, 0);
-        $.strideH = reader.value(json.strideH, 0);
-        $.padMode = $root.mindspore.schema.PadMode[json.padMode];
-        $.padUp = reader.value(json.padUp, 0);
-        $.padDown = reader.value(json.padDown, 0);
-        $.padLeft = reader.value(json.padLeft, 0);
-        $.padRight = reader.value(json.padRight, 0);
-        $.dilateW = reader.value(json.dilateW, 0);
-        $.dilateH = reader.value(json.dilateH, 0);
-        $.hasBias = reader.value(json.hasBias, false);
-        $.activationType = $root.mindspore.schema.ActivationType[json.activationType];
-        return $;
-    }
-};
-
 $root.mindspore.schema.BNGrad = class BNGrad {
 
     static decode(reader, position) {
@@ -1740,19 +1392,34 @@ $root.mindspore.schema.BNGrad = class BNGrad {
     }
 };
 
+$root.mindspore.schema.BNGradInput = class BNGradInput {
+
+    static decode(reader, position) {
+        const $ = new $root.mindspore.schema.BNGradInput();
+        $.eps = reader.float32_(position, 4, 0);
+        $.momentum = reader.float32_(position, 6, 0);
+        return $;
+    }
+
+    static decodeText(reader, json) {
+        const $ = new $root.mindspore.schema.BNGradInput();
+        $.eps = reader.value(json.eps, 0);
+        $.momentum = reader.value(json.momentum, 0);
+        return $;
+    }
+};
+
 $root.mindspore.schema.Scale = class Scale {
 
     static decode(reader, position) {
         const $ = new $root.mindspore.schema.Scale();
         $.axis = reader.int32_(position, 4, 0);
-        $.activationType = reader.int8_(position, 6, 0);
         return $;
     }
 
     static decodeText(reader, json) {
         const $ = new $root.mindspore.schema.Scale();
         $.axis = reader.value(json.axis, 0);
-        $.activationType = $root.mindspore.schema.ActivationType[json.activationType];
         return $;
     }
 };
@@ -2445,7 +2112,7 @@ $root.mindspore.schema.Range = class Range {
         $.dType = reader.int32_(position, 4, 0);
         $.start = reader.int32_(position, 6, 0);
         $.limit = reader.int32_(position, 8, 0);
-        $.delta = reader.int32_(position, 10, 1);
+        $.delta = reader.int32_(position, 10, 0);
         return $;
     }
 
@@ -2454,7 +2121,7 @@ $root.mindspore.schema.Range = class Range {
         $.dType = reader.value(json.dType, 0);
         $.start = reader.value(json.start, 0);
         $.limit = reader.value(json.limit, 0);
-        $.delta = reader.value(json.delta, 1);
+        $.delta = reader.value(json.delta, 0);
         return $;
     }
 };
@@ -2677,8 +2344,7 @@ $root.mindspore.schema.ReduceMode = {
     ReduceProd: 3,
     ReduceSum: 4,
     ReduceSumSquare: 5,
-    ReduceASum: 6,
-    ReduceAll: 7
+    ReduceASum: 6
 };
 
 $root.mindspore.schema.Reduce = class Reduce {
@@ -3086,19 +2752,6 @@ $root.mindspore.schema.FloorMod = class FloorMod {
     }
 };
 
-$root.mindspore.schema.Mod = class Mod {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.Mod();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.Mod();
-        return $;
-    }
-};
-
 $root.mindspore.schema.L2Norm = class L2Norm {
 
     static decode(reader, position) {
@@ -3427,74 +3080,16 @@ $root.mindspore.schema.ApplyMomentum = class ApplyMomentum {
     static decode(reader, position) {
         const $ = new $root.mindspore.schema.ApplyMomentum();
         $.gradientScale = reader.float32_(position, 4, 0);
-        $.useNesterov = reader.bool_(position, 6, false);
+        $.useLocking = reader.bool_(position, 6, false);
+        $.useNesterov = reader.bool_(position, 8, false);
         return $;
     }
 
     static decodeText(reader, json) {
         const $ = new $root.mindspore.schema.ApplyMomentum();
         $.gradientScale = reader.value(json.gradientScale, 0);
+        $.useLocking = reader.value(json.useLocking, false);
         $.useNesterov = reader.value(json.useNesterov, false);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Sgd = class Sgd {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Sgd();
-        $.weightDecay = reader.float32_(position, 4, 0);
-        $.dampening = reader.float32_(position, 6, 0);
-        $.useNesterov = reader.bool_(position, 8, false);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Sgd();
-        $.weightDecay = reader.value(json.weightDecay, 0);
-        $.dampening = reader.value(json.dampening, 0);
-        $.useNesterov = reader.value(json.useNesterov, false);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Adam = class Adam {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Adam();
-        $.useNesterov = reader.bool_(position, 4, false);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Adam();
-        $.useNesterov = reader.value(json.useNesterov, false);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Assign = class Assign {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.Assign();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.Assign();
-        return $;
-    }
-};
-
-$root.mindspore.schema.AssignAdd = class AssignAdd {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.AssignAdd();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.AssignAdd();
         return $;
     }
 };
@@ -3534,28 +3129,11 @@ $root.mindspore.schema.Lstm = class Lstm {
     static decode(reader, position) {
         const $ = new $root.mindspore.schema.Lstm();
         $.bidirection = reader.bool_(position, 4, false);
-        $.smooth = reader.float32_(position, 6, 0);
         return $;
     }
 
     static decodeText(reader, json) {
         const $ = new $root.mindspore.schema.Lstm();
-        $.bidirection = reader.value(json.bidirection, false);
-        $.smooth = reader.value(json.smooth, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Gru = class Gru {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Gru();
-        $.bidirection = reader.bool_(position, 4, false);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Gru();
         $.bidirection = reader.value(json.bidirection, false);
         return $;
     }
@@ -3652,19 +3230,6 @@ $root.mindspore.schema.Depend = class Depend {
 
     static decodeText(/* reader, json */) {
         const $ = new $root.mindspore.schema.Depend();
-        return $;
-    }
-};
-
-$root.mindspore.schema.ControlDepend = class ControlDepend {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.ControlDepend();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.ControlDepend();
         return $;
     }
 };
@@ -3788,662 +3353,6 @@ $root.mindspore.schema.SkipGram = class SkipGram {
         $.includeAllGrams = reader.value(json.includeAllGrams, false);
         $.maxSkipSize = reader.value(json.maxSkipSize, 0);
         $.ngramSize = reader.value(json.ngramSize, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.CustomPredict = class CustomPredict {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.CustomPredict();
-        $.outputNum = reader.int32_(position, 4, 0);
-        $.weightThreshold = reader.float32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.CustomPredict();
-        $.outputNum = reader.value(json.outputNum, 0);
-        $.weightThreshold = reader.value(json.weightThreshold, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.CustomNormalize = class CustomNormalize {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.CustomNormalize();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.CustomNormalize();
-        return $;
-    }
-};
-
-$root.mindspore.schema.CustomExtractFeatures = class CustomExtractFeatures {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.CustomExtractFeatures();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.CustomExtractFeatures();
-        return $;
-    }
-};
-
-$root.mindspore.schema.AudioSpectrogram = class AudioSpectrogram {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.AudioSpectrogram();
-        $.windowSize = reader.int32_(position, 4, 0);
-        $.stride = reader.int32_(position, 6, 0);
-        $.magSquare = reader.bool_(position, 8, false);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.AudioSpectrogram();
-        $.windowSize = reader.value(json.windowSize, 0);
-        $.stride = reader.value(json.stride, 0);
-        $.magSquare = reader.value(json.magSquare, false);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Mfcc = class Mfcc {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Mfcc();
-        $.freqUpperLimit = reader.float32_(position, 4, 0);
-        $.freqLowerLimit = reader.float32_(position, 6, 0);
-        $.filterBankChannelNum = reader.int32_(position, 8, 0);
-        $.dctCoeffNum = reader.int32_(position, 10, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Mfcc();
-        $.freqUpperLimit = reader.value(json.freqUpperLimit, 0);
-        $.freqLowerLimit = reader.value(json.freqLowerLimit, 0);
-        $.filterBankChannelNum = reader.value(json.filterBankChannelNum, 0);
-        $.dctCoeffNum = reader.value(json.dctCoeffNum, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Rfft = class Rfft {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Rfft();
-        $.fftLength = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Rfft();
-        $.fftLength = reader.value(json.fftLength, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.FftReal = class FftReal {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.FftReal();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.FftReal();
-        return $;
-    }
-};
-
-$root.mindspore.schema.FftImag = class FftImag {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.FftImag();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.FftImag();
-        return $;
-    }
-};
-
-$root.mindspore.schema.DropoutGrad = class DropoutGrad {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.DropoutGrad();
-        $.ratio = reader.float32_(position, 4, 0.5);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.DropoutGrad();
-        $.ratio = reader.value(json.ratio, 0.5);
-        return $;
-    }
-};
-
-$root.mindspore.schema.MaximumGrad = class MaximumGrad {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.MaximumGrad();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.MaximumGrad();
-        return $;
-    }
-};
-
-$root.mindspore.schema.MinimumGrad = class MinimumGrad {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.MinimumGrad();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.MinimumGrad();
-        return $;
-    }
-};
-
-$root.mindspore.schema.NonMaxSuppression = class NonMaxSuppression {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.NonMaxSuppression();
-        $.centerPointBox = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.NonMaxSuppression();
-        $.centerPointBox = reader.value(json.centerPointBox, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.InstanceNorm = class InstanceNorm {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.InstanceNorm();
-        $.epsilon = reader.float32_(position, 4, 0.00001);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.InstanceNorm();
-        $.epsilon = reader.value(json.epsilon, 0.00001);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Loop = class Loop {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Loop();
-        $.subGraphIndex = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Loop();
-        $.subGraphIndex = reader.value(json.subGraphIndex, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Identity = class Identity {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.Identity();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.Identity();
-        return $;
-    }
-};
-
-$root.mindspore.schema.LayerNorm = class LayerNorm {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.LayerNorm();
-        $.normalizedShape = reader.typedArray(position, 4, Int32Array);
-        $.epsilon = reader.float32_(position, 6, 0.00001);
-        $.elementwiseAffine = reader.bool_(position, 8, false);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.LayerNorm();
-        $.normalizedShape = reader.typedArray(json.normalizedShape, Int32Array);
-        $.epsilon = reader.value(json.epsilon, 0.00001);
-        $.elementwiseAffine = reader.value(json.elementwiseAffine, false);
-        return $;
-    }
-};
-
-$root.mindspore.schema.While = class While {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.While();
-        $.condSubgraphIndex = reader.int32_(position, 4, 0);
-        $.bodySubgraphIndex = reader.int32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.While();
-        $.condSubgraphIndex = reader.value(json.condSubgraphIndex, 0);
-        $.bodySubgraphIndex = reader.value(json.bodySubgraphIndex, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.If = class If {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.If();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.If();
-        return $;
-    }
-};
-
-$root.mindspore.schema.UnsortedSegmentSum = class UnsortedSegmentSum {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.UnsortedSegmentSum();
-        $.numSegments = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.UnsortedSegmentSum();
-        $.numSegments = reader.value(json.numSegments, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.OnesLike = class OnesLike {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.OnesLike();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.OnesLike();
-        return $;
-    }
-};
-
-$root.mindspore.schema.BinaryCrossEntropy = class BinaryCrossEntropy {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.BinaryCrossEntropy();
-        $.reduction = reader.int32_(position, 4, 1);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.BinaryCrossEntropy();
-        $.reduction = reader.value(json.reduction, 1);
-        return $;
-    }
-};
-
-$root.mindspore.schema.BinaryCrossEntropyGrad = class BinaryCrossEntropyGrad {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.BinaryCrossEntropyGrad();
-        $.reduction = reader.int32_(position, 4, 1);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.BinaryCrossEntropyGrad();
-        $.reduction = reader.value(json.reduction, 1);
-        return $;
-    }
-};
-
-$root.mindspore.schema.LpNormalization = class LpNormalization {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.LpNormalization();
-        $.axis = reader.int32_(position, 4, 0);
-        $.p = reader.int32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.LpNormalization();
-        $.axis = reader.value(json.axis, 0);
-        $.p = reader.value(json.p, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Switch = class Switch {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.Switch();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.Switch();
-        return $;
-    }
-};
-
-$root.mindspore.schema.Partial = class Partial {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Partial();
-        $.subGraphIndex = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Partial();
-        $.subGraphIndex = reader.value(json.subGraphIndex, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.TensorListFromTensor = class TensorListFromTensor {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.TensorListFromTensor();
-        $.elementDType = reader.int32_(position, 4, 0);
-        $.shapeType = reader.int32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.TensorListFromTensor();
-        $.elementDType = reader.value(json.elementDType, 0);
-        $.shapeType = reader.value(json.shapeType, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.TensorListStack = class TensorListStack {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.TensorListStack();
-        $.numElements = reader.int32_(position, 4, 0);
-        $.elementDType = reader.int32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.TensorListStack();
-        $.numElements = reader.value(json.numElements, 0);
-        $.elementDType = reader.value(json.elementDType, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.TensorListGetItem = class TensorListGetItem {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.TensorListGetItem();
-        $.elementDType = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.TensorListGetItem();
-        $.elementDType = reader.value(json.elementDType, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.TensorListSetItem = class TensorListSetItem {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.TensorListSetItem();
-        $.elementDType = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.TensorListSetItem();
-        $.elementDType = reader.value(json.elementDType, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.TensorListReserve = class TensorListReserve {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.TensorListReserve();
-        $.elementDType = reader.int32_(position, 4, 0);
-        $.shapeType = reader.int32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.TensorListReserve();
-        $.elementDType = reader.value(json.elementDType, 0);
-        $.shapeType = reader.value(json.shapeType, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.All = class All {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.All();
-        $.keepDims = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.All();
-        $.keepDims = reader.value(json.keepDims, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.Assert = class Assert {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.Assert();
-        $.summarize = reader.int32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.Assert();
-        $.summarize = reader.value(json.summarize, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.SmoothL1Loss = class SmoothL1Loss {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.SmoothL1Loss();
-        $.beta = reader.float32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.SmoothL1Loss();
-        $.beta = reader.value(json.beta, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.SmoothL1LossGrad = class SmoothL1LossGrad {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.SmoothL1LossGrad();
-        $.beta = reader.float32_(position, 4, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.SmoothL1LossGrad();
-        $.beta = reader.value(json.beta, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.SigmoidCrossEntropyWithLogits = class SigmoidCrossEntropyWithLogits {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.SigmoidCrossEntropyWithLogits();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.SigmoidCrossEntropyWithLogits();
-        return $;
-    }
-};
-
-$root.mindspore.schema.SigmoidCrossEntropyWithLogitsGrad = class SigmoidCrossEntropyWithLogitsGrad {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.SigmoidCrossEntropyWithLogitsGrad();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.SigmoidCrossEntropyWithLogitsGrad();
-        return $;
-    }
-};
-
-$root.mindspore.schema.Reciprocal = class Reciprocal {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.Reciprocal();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.Reciprocal();
-        return $;
-    }
-};
-
-$root.mindspore.schema.Merge = class Merge {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.Merge();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.Merge();
-        return $;
-    }
-};
-
-$root.mindspore.schema.GeLU = class GeLU {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.GeLU();
-        $.approximate = reader.bool_(position, 4, false);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.GeLU();
-        $.approximate = reader.value(json.approximate, false);
-        return $;
-    }
-};
-
-$root.mindspore.schema.NonZero = class NonZero {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.NonZero();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.NonZero();
-        return $;
-    }
-};
-
-$root.mindspore.schema.InvertPermutation = class InvertPermutation {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.InvertPermutation();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.InvertPermutation();
-        return $;
-    }
-};
-
-$root.mindspore.schema.Size = class Size {
-
-    static decode(/* reader, position */) {
-        const $ = new $root.mindspore.schema.Size();
-        return $;
-    }
-
-    static decodeText(/* reader, json */) {
-        const $ = new $root.mindspore.schema.Size();
-        return $;
-    }
-};
-
-$root.mindspore.schema.RandomStandardNormal = class RandomStandardNormal {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.RandomStandardNormal();
-        $.seed = reader.int32_(position, 4, 0);
-        $.seed2 = reader.int32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.RandomStandardNormal();
-        $.seed = reader.value(json.seed, 0);
-        $.seed2 = reader.value(json.seed2, 0);
-        return $;
-    }
-};
-
-$root.mindspore.schema.CropAndResize = class CropAndResize {
-
-    static decode(reader, position) {
-        const $ = new $root.mindspore.schema.CropAndResize();
-        $.method = reader.int8_(position, 4, 0);
-        $.extrapolation_value = reader.float32_(position, 6, 0);
-        return $;
-    }
-
-    static decodeText(reader, json) {
-        const $ = new $root.mindspore.schema.CropAndResize();
-        $.method = $root.mindspore.schema.ResizeMethod[json.method];
-        $.extrapolation_value = reader.value(json.extrapolation_value, 0);
         return $;
     }
 };
