@@ -41,10 +41,10 @@ install_python: build_python
 	pip install --force-reinstall --quiet dist/dist/*.whl
 
 build_electron: install
-	CSC_IDENTITY_AUTO_DISCOVERY=false #npx electron-builder --mac --universal --publish never
+	CSC_IDENTITY_AUTO_DISCOVERY=false # npx electron-builder --mac --universal --publish never
 	npx electron-builder --win --publish never
 	npx electron-builder --linux appimage --publish never
-	#npx electron-builder --linux snap --publish never
+	# npx electron-builder --linux snap --publish never
 
 start: install
 	npx electron .
